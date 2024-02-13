@@ -39,3 +39,25 @@ exports.getAllCourses = async (req, res) => {
     });
   }
 };
+exports.getSingleCourse = async (req, res) => {
+  const { slug } = req.params;
+
+  try {
+    const course = await Course.findOne({ slug: slug });
+    if (!course) {
+      return res.status(500).json({
+        status: "fail",
+        message: "Internal server error. Please try again later.",
+      });
+    }
+    return res.status(200).render("course", {
+      course,
+      page_name: "courses",
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: "fail",
+      message: error,
+    });
+  }
+};

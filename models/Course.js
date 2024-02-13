@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const slugify = require("slugify");
 
 const courseSchema = new mongoose.Schema({
   name: {
@@ -9,12 +10,24 @@ const courseSchema = new mongoose.Schema({
   description: {
     type: String,
     required: ["true", "Course description is required"],
-    maxLength : [150, "Course description takes max 150 characters"],
+    maxLength: [150, "Course description takes max 150 characters"],
   },
   createdAt: {
     type: Date,
     default: Date.now,
   },
+  slug: {
+    type: String,
+    unique: true,
+  },
+});
+
+courseSchema.pre("validate", function (next) {
+  this.slug = slugify(this.name, {
+    lower: true,
+    strict: true,
+  });
+  next();
 });
 
 const Course = mongoose.model("Course", courseSchema);
