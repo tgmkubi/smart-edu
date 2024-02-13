@@ -18,3 +18,24 @@ exports.createCourse = async (req, res) => {
     });
   }
 };
+
+exports.getAllCourses = async (req, res) => {
+  try {
+    const courses = await Course.find().sort("-createdAt");
+    if (!courses) {
+      return res.status(500).json({
+        status: "fail",
+        message: "Internal server error. Please try again later.",
+      });
+    }
+    return res.status(200).render("courses", {
+      courses,
+      page_name: "courses",
+    });
+  } catch (error) {
+    return res.status(400).json({
+      status: "fail",
+      message: error,
+    });
+  }
+};
