@@ -2,17 +2,18 @@ const express = require("express");
 const {
   getIndexPage,
   getAboutPage,
-  getCoursesPage,
   getDashboardPage,
   getContactPage,
 } = require("../controllers/pageControllers");
+const course = require("./course");
 
 const router = express.Router();
 
 router.get("", getIndexPage);
 router.get("/about", getAboutPage);
-router.get("/courses", getCoursesPage);
 router.get("/dashboard", getDashboardPage);
 router.get("/contact", getContactPage);
+
+router.use("/courses", course);
 
 module.exports = router;
