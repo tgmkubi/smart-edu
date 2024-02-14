@@ -12,6 +12,10 @@ const courseSchema = new mongoose.Schema({
     required: ["true", "Course description is required"],
     maxLength: [150, "Course description takes max 150 characters"],
   },
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
+  },
   createdAt: {
     type: Date,
     default: Date.now,
