@@ -29,10 +29,10 @@ exports.loginUser = async (req, res, next) => {
 
     await comparePassword(res, next, password, user.password);
 
-    return res.status(200).json({
-      status: "success",
-      user,
-    });
+    // Session
+    req.session.userID = user._id;
+
+    return res.status(200).redirect("/");
   } catch (error) {
     return res.status(400).json({
       status: "fail",
