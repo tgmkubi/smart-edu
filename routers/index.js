@@ -5,6 +5,7 @@ const {
   getDashboardPage,
   getContactPage,
   getRegisterPage,
+  getLoginPage,
 } = require("../controllers/pageControllers");
 const course = require("./course");
 const category = require("./category");
@@ -17,6 +18,7 @@ router.get("/about", getAboutPage);
 router.get("/dashboard", getDashboardPage);
 router.get("/contact", getContactPage);
 router.get("/register", getRegisterPage);
+router.get("/login", getLoginPage);
 
 router.use("/courses", course);
 router.use("/categories", category);
