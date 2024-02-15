@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const path = require("path");
+const MongoStore = require("connect-mongo");
 const session = require("express-session");
 const routers = require("./routers/index");
 const connectDatabase = require("./helpers/database/connectDatabase");
@@ -26,6 +27,7 @@ app.use(
     secret: "kubis magic is houdini",
     resave: false,
     saveUninitialized: true,
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
   })
 );
 
