@@ -36,7 +36,7 @@ app.use("*", (req, res, next) => {
   userIN = req.session.userID;
   next();
 });
-app.use("", routers);
+app.use("/", routers);
 
 app.listen(PORT, () => {
   console.log(`Example app listening on http://localhost:${PORT}`);

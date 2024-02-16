@@ -4,6 +4,6 @@ const {
 } = require("../controllers/categoryController");
 const category = express.Router();
 
-category.post("", createCategory);
+category.post("/", createCategory);
 
 module.exports = category;
