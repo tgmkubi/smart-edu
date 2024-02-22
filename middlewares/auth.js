@@ -12,7 +12,21 @@ const redirectMiddleware = async (req, res, next) => {
   next();
 };
 
+const getAccessToRoute = (roles) => {
+  return async (req, res, next) => {
+    const userRole = req.body.role;
+    if (roles.includes(userRole)) {
+      next();
+    } else {
+      return res
+        .status(401)
+        .send("You are not authorize to access this route.");
+    }
+  };
+};
+
 module.exports = {
   authMiddleware,
   redirectMiddleware,
+  getAccessToRoute,
 };

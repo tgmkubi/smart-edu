@@ -2,17 +2,15 @@ const User = require("../models/User");
 const { comparePassword } = require("../helpers/input/inputHelpers");
 
 exports.createUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
   try {
     const user = await User.create({
       name,
       email,
       password,
+      role,
     });
-    return res.status(201).json({
-      status: "success",
-      user,
-    });
+    return res.status(201).redirect("/login");
   } catch (error) {
     return res.status(400).json({
       status: "fail",
