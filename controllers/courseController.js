@@ -3,11 +3,13 @@ const Category = require("../models/Category");
 
 exports.createCourse = async (req, res) => {
   const { name, description, category } = req.body;
+  const { userID: user } = req.session;
   try {
     const course = await Course.create({
       name,
       description,
       category,
+      user,
     });
     return res.status(201).redirect("/courses");
   } catch (error) {
@@ -59,7 +61,7 @@ exports.getSingleCourse = async (req, res) => {
   const { slug } = req.params;
 
   try {
-    const course = await Course.findOne({ slug: slug });
+    const course = await Course.findOne({ slug: slug }).populate("user");
     if (!course) {
       return res.status(500).json({
         status: "fail",

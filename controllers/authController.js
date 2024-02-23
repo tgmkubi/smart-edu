@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Category = require("../models/Category");
+const Course = require("../models/Course");
 const { comparePassword } = require("../helpers/input/inputHelpers");
 
 exports.createUser = async (req, res) => {
@@ -50,6 +51,7 @@ exports.getDashboardPage = async (req, res) => {
   try {
     const user = await User.findById(req.session.userID);
     const categories = await Category.find();
+    const courses = await Course.find({ user: user._id });
     if (!user) {
       return res.status(401).json({
         status: "fail",
@@ -60,6 +62,7 @@ exports.getDashboardPage = async (req, res) => {
       page_name: "dashboard",
       user,
       categories,
+      courses,
     });
   } catch (error) {
     return res.status(400).json({
