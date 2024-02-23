@@ -9,10 +9,7 @@ exports.createCourse = async (req, res) => {
       description,
       category,
     });
-    return res.status(201).json({
-      status: "success",
-      course,
-    });
+    return res.status(201).redirect("/courses");
   } catch (error) {
     return res.status(400).json({
       status: "fail",

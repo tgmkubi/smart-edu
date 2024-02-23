@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Category = require("../models/Category");
 const { comparePassword } = require("../helpers/input/inputHelpers");
 
 exports.createUser = async (req, res) => {
@@ -48,6 +49,7 @@ exports.logoutUser = (req, res) => {
 exports.getDashboardPage = async (req, res) => {
   try {
     const user = await User.findById(req.session.userID);
+    const categories = await Category.find();
     if (!user) {
       return res.status(401).json({
         status: "fail",
@@ -57,6 +59,7 @@ exports.getDashboardPage = async (req, res) => {
     return res.status(200).render("dashboard", {
       page_name: "dashboard",
       user,
+      categories,
     });
   } catch (error) {
     return res.status(400).json({
