@@ -6,6 +6,7 @@ const {
   getContactPage,
   getRegisterPage,
   getLoginPage,
+  sendEmail,
 } = require("../controllers/pageControllers");
 const course = require("./course");
 const category = require("./category");
@@ -16,6 +17,7 @@ const router = express.Router();
 router.get("/", getIndexPage);
 router.get("/about", getAboutPage);
 router.get("/contact", getContactPage);
+router.post("/contact", sendEmail);
 router.get("/register", redirectMiddleware, getRegisterPage);
 router.get("/login", redirectMiddleware, getLoginPage);
 
