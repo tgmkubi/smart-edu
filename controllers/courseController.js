@@ -23,7 +23,7 @@ exports.createCourse = async (req, res) => {
 
 exports.getAllCourses = async (req, res) => {
   const { category: categorySlug } = req.query;
-  const search = req.query.search || req.query["search-k"];
+  const { search } = req.query;
 
   try {
     const category = await Category.findOne({ slug: categorySlug });
@@ -37,7 +37,7 @@ exports.getAllCourses = async (req, res) => {
       filter.name = { $regex: new RegExp(search, "i") }; // "i" parametresi büyük-küçük harf duyarsız arama yapar
     }
 
-    const courses = await Course.find(filter).sort("-createdAt");
+    const courses = await Course.find(filter).sort("-createdAt").populate("user");
     const categories = await Category.find();
 
     if (!courses) {
@@ -65,6 +65,7 @@ exports.getSingleCourse = async (req, res) => {
   try {
     const course = await Course.findOne({ slug: slug }).populate("user");
     const user = await User.findById(userID);
+    const categories = await Category.find();
     if (!course) {
       return res.status(500).json({
         status: "fail",
@@ -74,6 +75,7 @@ exports.getSingleCourse = async (req, res) => {
     return res.status(200).render("course", {
       course,
       user,
+      categories,
       page_name: "courses",
     });
   } catch (error) {
