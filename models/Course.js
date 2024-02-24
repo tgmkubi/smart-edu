@@ -10,7 +10,6 @@ const courseSchema = new mongoose.Schema({
   description: {
     type: String,
     required: ["true", "Course description is required"],
-    maxLength: [150, "Course description takes max 150 characters"],
   },
   category: {
     type: mongoose.Schema.Types.ObjectId,

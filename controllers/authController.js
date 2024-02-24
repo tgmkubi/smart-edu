@@ -49,7 +49,7 @@ exports.logoutUser = (req, res) => {
 
 exports.getDashboardPage = async (req, res) => {
   try {
-    const user = await User.findById(req.session.userID);
+    const user = await User.findById(req.session.userID).populate("courses");
     const categories = await Category.find();
     const courses = await Course.find({ user: user._id });
     if (!user) {
