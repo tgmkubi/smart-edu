@@ -45,7 +45,7 @@ exports.sendEmail = async (req, res) => {
   try {
     const info = await transporter.sendMail({
       from: process.env.SMTP_USER, // sender address
-      to: "kubilayuysall@gmail.com", // list of receivers
+      to: req.body.email, // list of receivers
       subject: `SMARTEDU CONTACT MESSAGE FROM ${req.body.name}`, // Subject line
       html: `
         <h1>Mail Details</h1>
@@ -58,10 +58,10 @@ exports.sendEmail = async (req, res) => {
         `,
     });
 
-    console.log("Message sent: %s", info.messageId);
+    req.flash("success", "We've received your message successfully");
+    return res.status(200).redirect("/contact");
   } catch (error) {
-    console.log(error);
+    req.flash("error", "Something went wrong! Please try again later.");
+    return res.status(200).redirect("/contact");
   }
-
-  return res.status(200).redirect("/");
 };

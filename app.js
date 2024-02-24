@@ -4,6 +4,7 @@ const path = require("path");
 const MongoStore = require("connect-mongo");
 const session = require("express-session");
 const routers = require("./routers/index");
+const flash = require("connect-flash");
 const connectDatabase = require("./helpers/database/connectDatabase");
 
 const app = express();
@@ -30,6 +31,11 @@ app.use(
     store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
   })
 );
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.flashMessages = req.flash();
+  next();
+});
 
 // ROUTERS
 app.use("*", (req, res, next) => {
