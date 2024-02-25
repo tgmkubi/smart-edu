@@ -1,3 +1,4 @@
+const { validationResult } = require("express-validator");
 const User = require("../models/User");
 const Category = require("../models/Category");
 const Course = require("../models/Course");
@@ -14,10 +15,11 @@ exports.createUser = async (req, res) => {
     });
     return res.status(201).redirect("/login");
   } catch (error) {
-    return res.status(400).json({
-      status: "fail",
-      message: error,
+    const errors = validationResult(req);
+    errors.array().forEach((error) => {
+      req.flash("error", `${error.msg}\n`);
     });
+    return res.status(400).redirect("/register");
   }
 };
 
@@ -27,17 +29,23 @@ exports.loginUser = async (req, res, next) => {
   try {
     const user = await User.findOne({ email });
 
-    await comparePassword(res, next, password, user.password);
-
-    // Session
-    req.session.userID = user._id;
-
-    return res.status(200).redirect("/users/dashboard");
+    if (!user) {
+      req.flash("error", "There is no user with that email!");
+      return res.status(400).redirect("/login");
+    } else {
+      const passwordIsCorrect = await comparePassword(password, user.password);
+      if (!passwordIsCorrect) {
+        req.flash("error", "Your password is not correct!");
+        return res.status(400).redirect("/login");
+      } else {
+        // Session
+        req.session.userID = user._id;
+        return res.status(200).redirect("/users/dashboard");
+      }
+    }
   } catch (error) {
-    return res.status(400).json({
-      status: "fail",
-      message: error,
-    });
+    req.flash("error", "Something went wrong!");
+    return res.status(500).redirect("/login");
   }
 };
 
