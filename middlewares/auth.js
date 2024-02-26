@@ -14,7 +14,7 @@ const redirectMiddleware = async (req, res, next) => {
 
 const getAccessToRoute = (roles) => {
   return async (req, res, next) => {
-    const userRole = req.body.role;
+    const userRole = req.body.role || req.query.role;
     if (roles.includes(userRole)) {
       next();
     } else {

@@ -7,6 +7,7 @@ const {
   enrollCourse,
   releaseCourse,
   deleteCourse,
+  updateCourse,
 } = require("../controllers/courseController");
 const course = express.Router();
 
@@ -17,5 +18,6 @@ course.get("/:slug", getSingleCourse);
 course.post("/enroll", enrollCourse);
 course.post("/release", releaseCourse);
 course.delete("/:slug", deleteCourse);
+course.put("/:slug", updateCourse);
 
 module.exports = course;

@@ -1,11 +1,12 @@
 const express = require("express");
 const { body } = require("express-validator");
 const User = require("../models/User");
-const { authMiddleware } = require("../middlewares/auth");
+const { authMiddleware, getAccessToRoute } = require("../middlewares/auth");
 const {
   createUser,
   loginUser,
   logoutUser,
+  deleteUser,
 } = require("../controllers/authController");
 const { getDashboardPage } = require("../controllers/authController");
 const user = express.Router();
@@ -37,5 +38,7 @@ user.post(
 );
 user.get("/logout", logoutUser);
 user.get("/dashboard", authMiddleware, getDashboardPage);
+// user silindiği zaman oluşturduğu kurslar da silinebilir veya user'ı olmayan course için frontend kısmında user not found yazdırabiliriz.
+user.delete("/:id", getAccessToRoute(["admin"]), deleteUser);
 
 module.exports = user;
