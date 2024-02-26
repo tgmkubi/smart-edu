@@ -36,7 +36,9 @@ exports.getAllCourses = async (req, res) => {
       filter.name = { $regex: new RegExp(search, "i") }; // "i" parametresi büyük-küçük harf duyarsız arama yapar
     }
 
-    const courses = await Course.find(filter).sort("-createdAt").populate("user");
+    const courses = await Course.find(filter)
+      .sort("-createdAt")
+      .populate("user");
     const categories = await Category.find();
 
     if (!courses) {
@@ -118,6 +120,24 @@ exports.releaseCourse = async (req, res) => {
     return res.status(400).json({
       status: "fail",
       message: error,
+    });
+  }
+};
+
+exports.deleteCourse = async (req, res) => {
+  const { slug } = req.params;
+  try {
+    // const course = await Course.findOneAndDelete({slug});
+
+    const course = await Course.findOne({ slug });
+    await course.deleteOne();
+
+    req.flash("error", `${course.name} has been removed successfully`);
+    res.status(200).redirect("/users/dashboard");
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      error,
     });
   }
 };

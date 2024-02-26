@@ -89,6 +89,15 @@
 			<div class="container">
 				<div class="row"> 
 					
+					<div class="col-lg-12">
+						<% if(flashMessages) { %>
+							<% if(flashMessages.success) { %>
+								<div class="alert alert-success"><%= flashMessages.success %></div>
+							<% } else if(flashMessages.error) { %>
+								<div class="alert alert-danger"><%= flashMessages.error %></div>
+							<% } %>
+						<% } %>
+					</div>
 
 					<!-- Button trigger modal -->
 					<div class="col-lg-12 text-center mt-4">
@@ -129,6 +138,14 @@
 								</div>
 								<div class="course-desc">
 									<p><%= course.description %></p>
+								</div>
+								<div class="clearfix">
+									<ul style="list-style-type: none;">
+										<li style="float: left;"><button class="btn btn-primary text-white"><span>UPDATE</span></button></li>
+										<li style="float: right;"><a href="/courses/<%= course.slug %>?_method=DELETE" onclick="return confirm(
+											'Are you sure?'
+										)" class="btn btn-danger text-white"><span>DELETE</span></a></li>
+									</ul>
 								</div>
 							</div>
 						</div>
