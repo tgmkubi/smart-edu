@@ -88,6 +88,8 @@ exports.deleteUser = async (req, res) => {
     const user = await User.findByIdAndDelete(id);
     await Course.deleteMany({ user: id });
 
+    // const user = await User.deleteOne({ _id: id });;
+
     req.flash("info", `${user.name} and related courses deleted successfully.`);
     res.status(200).redirect("/users/dashboard");
   } catch (error) {

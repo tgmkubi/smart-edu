@@ -45,6 +45,20 @@ userSchema.pre("save", function (next) {
   });
 });
 
+// userSchema.pre("deleteOne", async function (next) {
+//   const userId = this._id; // Accessing _id directly from the document
+//   console.log(userId);
+//   console.log("deleteOne tetiklendi")
+//   try {
+//       await Course.deleteMany({ user: userId });
+//       console.log("Related courses deleted successfully.");
+//       next();
+//   } catch (error) {
+//       console.error("Failed to delete related courses:", error);
+//       next(error);
+//   }
+// });
+
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;

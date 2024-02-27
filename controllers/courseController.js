@@ -140,7 +140,6 @@ exports.deleteCourse = async (req, res) => {
   }
 };
 
-
 exports.updateCourse = async (req, res) => {
   const { slug } = req.params;
   try {
